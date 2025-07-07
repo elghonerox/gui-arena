@@ -1,0 +1,11 @@
+[package]
+name = "gui_arena"
+version = "0.1.0"
+license = "MIT"
+
+[addresses]
+gui_arena = "0x1"  # Replace with your Petra Wallet Testnet address for deployment
+
+[dependencies]
+AptosFramework = { git = "https://github.com/aptos-labs/aptos-core", subdir = "aptos-move/framework/aptos-framework", rev = "main" }
+AptosTokenObjects = { git = "https://github.com/aptos-labs/aptos-core", subdir = "aptos-move/framework/aptos-token-objects", rev = "main" }
