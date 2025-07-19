@@ -3,7 +3,12 @@ node_modules/
 dist/
 build/
 .env
+.env.*
+!.env.example
 *.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 tsconfig.tsbuildinfo
 
 # Move/Aptos build artifacts
@@ -15,6 +20,7 @@ move/target/
 
 # IDE and system files
 .idea/
+.vscode/
 *.code-workspace
 .DS_Store
 
@@ -24,6 +30,14 @@ memes/
 smart-contracts/aptos
 smart-contracts/gui-arena/
 smart-contracts/gui_arena_abi.json
-git
-cd
-docs/
+
+# Cache directories
+.cache/
+.parcel-cache
+.npm
+.eslintcache
+
+# Coverage reports
+coverage/
+*.lcov
+.nyc_output
