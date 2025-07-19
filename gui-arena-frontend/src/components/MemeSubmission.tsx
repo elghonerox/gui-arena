@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useWallet } from '@aptos-labs/wallet-adapter-react';
-import { Aptos, AptosConfig, Network } from '@aptos-labs/ts-sdk';
+import { Aptos, AptosConfig, Network, InputEntryFunctionData } from '@aptos-labs/ts-sdk';
 import { PinataService } from '../Service/pinataService';
 import { useGuiBalance } from '../hooks/useGuiBalance';
 import { Card, Button, Typography, Upload, Input, Form, message, Space, Tooltip } from 'antd';
@@ -51,14 +51,16 @@ const MemeSubmission: React.FC = () => {
       setUploading(false);
       setSubmitting(true);
 
-      // Build the transaction using the new SDK structure
-      const transaction = await aptos.transaction.build.simple({
-        sender: account.address,
-        data: {
-          function: `${CONTRACT_ADDRESS}::gui_arena::submit_meme`,
-          functionArguments: [1, values.title, ipfsHash], // Hardcoded tournament_id = 1
-        },
-      });
+      // Build the transaction with a non-multisig payload
+      const payload: InputEntryFunctionData = {
+        function: `${CONTRACT_ADDRESS}::gui_arena::submit_meme`,
+        typeArguments: [],
+        functionArguments: [1, values.title, ipfsHash], // Hardcoded tournament_id = 1
+      };
+
+      const transaction = {
+        data: payload,
+      };
 
       // Sign and submit the transaction
       const response = await signAndSubmitTransaction(transaction);

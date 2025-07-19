@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Card, Table, Avatar, Space, Typography, Badge, Button, message, Spin, Image } from 'antd';
+import { Card, Table, Space, Typography, Badge, Button, message, Spin, Image } from 'antd';
 import {
   TrophyOutlined,
   FireOutlined,
@@ -71,7 +71,7 @@ const formatAddress = (address: string): string => {
   return `${address.slice(0, 6)}...${address.slice(-4)}`;
 };
 
-const getRankIcon = (rank: number): JSX.Element => {
+const getRankIcon = (rank: number): React.ReactElement => {
   switch (rank) {
     case 1:
       return <CrownOutlined className="text-yellow-500 text-2xl" />;
@@ -86,12 +86,17 @@ const getRankIcon = (rank: number): JSX.Element => {
 
 const MemeImage: React.FC<{ imageUrl: string; rank: number; ipfsHash?: string }> = ({ imageUrl, rank, ipfsHash }) => (
   <div className="relative group">
-    <div className={`relative overflow-hidden rounded-2xl ${
-      rank === 1 ? 'ring-4 ring-yellow-400 shadow-2xl' :
-      rank === 2 ? 'ring-4 ring-gray-400 shadow-xl' :
-      rank === 3 ? 'ring-4 ring-orange-400 shadow-lg' :
-      'ring-2 ring-purple-300 shadow-md'
-    }`}>
+    <div
+      className={`relative overflow-hidden rounded-2xl ${
+        rank === 1
+          ? 'ring-4 ring-yellow-400 shadow-2xl'
+          : rank === 2
+          ? 'ring-4 ring-gray-400 shadow-xl'
+          : rank === 3
+          ? 'ring-4 ring-orange-400 shadow-lg'
+          : 'ring-2 ring-purple-300 shadow-md'
+      }`}
+    >
       <Image
         src={imageUrl}
         alt="Meme"
@@ -103,9 +108,7 @@ const MemeImage: React.FC<{ imageUrl: string; rank: number; ipfsHash?: string }>
         }}
       />
       {rank <= 3 && (
-        <div className="absolute -top-2 -right-2 z-10">
-          {getRankIcon(rank)}
-        </div>
+        <div className="absolute -top-2 -right-2 z-10">{getRankIcon(rank)}</div>
       )}
     </div>
     {ipfsHash && (
@@ -121,23 +124,21 @@ const MemeDetails: React.FC<{ record: LeaderboardEntry }> = ({ record }) => (
     <div className="flex items-center space-x-3">
       <Text className="text-lg font-bold text-white">{record.title}</Text>
       {record.rank <= 3 && (
-        <Badge 
-          count={`#${record.rank}`} 
+        <Badge
+          count={`#${record.rank}`}
           className={`${
-            record.rank === 1 ? 'bg-yellow-500' :
-            record.rank === 2 ? 'bg-gray-400' :
-            'bg-orange-500'
+            record.rank === 1 ? 'bg-yellow-500' : record.rank === 2 ? 'bg-gray-400' : 'bg-orange-500'
           }`}
         />
       )}
     </div>
-    
+
     <div className="flex items-center space-x-4 text-sm text-gray-400">
       <span>Creator: {formatAddress(record.creator)}</span>
       <span>•</span>
       <span>{new Date(record.createdAt).toLocaleDateString()}</span>
     </div>
-    
+
     {record.tags && (
       <div className="flex flex-wrap gap-1 mt-2">
         {record.tags.map((tag, index) => (
@@ -162,27 +163,30 @@ const PerformanceMetrics: React.FC<{ record: LeaderboardEntry }> = ({ record }) 
       </div>
       <Text className="text-sm text-gray-400">votes</Text>
     </div>
-    
+
     <div className="w-full bg-gray-700 rounded-full h-3 overflow-hidden">
       <div
         className={`h-full transition-all duration-500 ${
-          record.rank === 1 ? 'bg-gradient-to-r from-yellow-400 to-yellow-600' :
-          record.rank === 2 ? 'bg-gradient-to-r from-gray-400 to-gray-600' :
-          record.rank === 3 ? 'bg-gradient-to-r from-orange-400 to-orange-600' :
-          'bg-gradient-to-r from-purple-400 to-purple-600'
+          record.rank === 1
+            ? 'bg-gradient-to-r from-yellow-400 to-yellow-600'
+            : record.rank === 2
+            ? 'bg-gradient-to-r from-gray-400 to-gray-600'
+            : record.rank === 3
+            ? 'bg-gradient-to-r from-orange-400 to-orange-600'
+            : 'bg-gradient-to-r from-purple-400 to-purple-600'
         }`}
         style={{ width: `${record.percentage}%` }}
       />
     </div>
-    
+
     <Text className="text-sm text-gray-400">{record.percentage.toFixed(1)}% of total votes</Text>
-    
+
     {record.trend && (
-      <div className={`flex items-center space-x-1 text-xs ${
-        record.trend === 'up' ? 'text-green-400' :
-        record.trend === 'down' ? 'text-red-400' :
-        'text-gray-400'
-      }`}>
+      <div
+        className={`flex items-center space-x-1 text-xs ${
+          record.trend === 'up' ? 'text-green-400' : record.trend === 'down' ? 'text-red-400' : 'text-gray-400'
+        }`}
+      >
         <ThunderboltOutlined />
         <span>{record.trend === 'up' ? 'Rising' : record.trend === 'down' ? 'Falling' : 'Stable'}</span>
       </div>
@@ -202,7 +206,7 @@ const Actions: React.FC<{ record: LeaderboardEntry }> = ({ record }) => (
     >
       Vote
     </Button>
-    
+
     <Button
       icon={<ShareAltOutlined />}
       className="border-purple-400 text-purple-400 hover:bg-purple-500/10 rounded-xl"
@@ -213,7 +217,7 @@ const Actions: React.FC<{ record: LeaderboardEntry }> = ({ record }) => (
     >
       Share
     </Button>
-    
+
     {record.ipfsHash && (
       <Button
         size="small"
@@ -241,32 +245,38 @@ const Leaderboard: React.FC = () => {
     setLoading(true);
     try {
       // Simulate loading delay
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+
       // Get memes from localStorage or use defaults
       const savedMemes = localStorage.getItem(STORAGE_KEY);
       const memes: Meme[] = savedMemes ? JSON.parse(savedMemes) : DEFAULT_MEMES;
-      
+
       // If no saved memes, save the defaults
       if (!savedMemes) {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(DEFAULT_MEMES));
       }
-      
+
       // Calculate total votes
       const total = memes.reduce((sum, meme) => sum + meme.votes, 0);
       setTotalVotes(total);
-      
+
       // Create leaderboard entries with rankings and percentages
       const sortedMemes = memes
         .sort((a, b) => b.votes - a.votes)
-        .map((meme, index) => ({
-          ...meme,
-          rank: index + 1,
-          percentage: total > 0 ? (meme.votes / total) * 100 : 0,
-                    trend: Math.random() > 0.5 ? 'up' : Math.random() > 0.5 ? 'down' : 'stable' as 'up' | 'down' | 'stable',
-          previousRank: index + Math.floor(Math.random() * 3) - 1, // Simulate previous rank
-        }));
-      
+        .map((meme, index) => {
+          // Explicitly define possible trend values
+          const trendValues: ('up' | 'down' | 'stable')[] = ['up', 'down', 'stable'];
+          const trend = trendValues[Math.floor(Math.random() * trendValues.length)];
+
+          return {
+            ...meme,
+            rank: index + 1,
+            percentage: total > 0 ? (meme.votes / total) * 100 : 0,
+            trend,
+            previousRank: index + Math.floor(Math.random() * 3) - 1, // Simulate previous rank
+          };
+        });
+
       setLeaderboardData(sortedMemes);
     } catch (error) {
       console.error('Failed to load leaderboard data:', error);
@@ -283,9 +293,7 @@ const Leaderboard: React.FC = () => {
       key: 'rank',
       width: 80,
       render: (rank: number) => (
-        <div className="flex items-center justify-center">
-          {getRankIcon(rank)}
-        </div>
+        <div className="flex items-center justify-center">{getRankIcon(rank)}</div>
       ),
     },
     {
@@ -293,11 +301,7 @@ const Leaderboard: React.FC = () => {
       key: 'meme',
       render: (record: LeaderboardEntry) => (
         <div className="flex items-center space-x-4">
-          <MemeImage 
-            imageUrl={record.imageUrl} 
-            rank={record.rank} 
-            ipfsHash={record.ipfsHash} 
-          />
+          <MemeImage imageUrl={record.imageUrl} rank={record.rank} ipfsHash={record.ipfsHash} />
           <MemeDetails record={record} />
         </div>
       ),
@@ -306,17 +310,13 @@ const Leaderboard: React.FC = () => {
       title: 'Performance',
       key: 'performance',
       width: 200,
-      render: (record: LeaderboardEntry) => (
-        <PerformanceMetrics record={record} />
-      ),
+      render: (record: LeaderboardEntry) => <PerformanceMetrics record={record} />,
     },
     {
       title: 'Actions',
       key: 'actions',
       width: 120,
-      render: (record: LeaderboardEntry) => (
-        <Actions record={record} />
-      ),
+      render: (record: LeaderboardEntry) => <Actions record={record} />,
     },
   ];
 
@@ -338,16 +338,19 @@ const Leaderboard: React.FC = () => {
         <div className="text-center mb-8">
           <div className="flex items-center justify-center space-x-3 mb-4">
             <TrophyOutlined className="text-yellow-500 text-4xl" />
-            <Title level={1} className="text-white mb-0 bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent">
+            <Title
+              level={1}
+              className="text-white mb-0 bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent"
+            >
               Battle Arena Leaderboard
             </Title>
             <FireOutlined className="text-red-500 text-4xl animate-pulse" />
           </div>
-          
+
           <Text className="text-gray-300 text-lg block mb-6">
             The ultimate meme battleground - where only the strongest survive!
           </Text>
-          
+
           {/* Stats Cards */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
             <Card className="bg-gradient-to-r from-yellow-500/20 to-orange-500/20 border-yellow-500/30">
@@ -359,7 +362,7 @@ const Leaderboard: React.FC = () => {
                 <Text className="text-yellow-400">Current Champion</Text>
               </div>
             </Card>
-            
+
             <Card className="bg-gradient-to-r from-purple-500/20 to-pink-500/20 border-purple-500/30">
               <div className="text-center">
                 <ThunderboltOutlined className="text-purple-500 text-3xl mb-2" />
@@ -367,7 +370,7 @@ const Leaderboard: React.FC = () => {
                 <Text className="text-purple-400">Total Votes Cast</Text>
               </div>
             </Card>
-            
+
             <Card className="bg-gradient-to-r from-blue-500/20 to-cyan-500/20 border-blue-500/30">
               <div className="text-center">
                 <FireOutlined className="text-blue-500 text-3xl mb-2" />
@@ -379,21 +382,22 @@ const Leaderboard: React.FC = () => {
         </div>
 
         {/* Leaderboard Table */}
-        <Card 
-          className="bg-gray-900/50 backdrop-blur-lg border-purple-500/30 shadow-2xl"
-          bodyStyle={{ padding: 0 }}
-        >
+        <Card className="bg-gray-900/50 backdrop-blur-lg border-purple-500/30 shadow-2xl" bodyStyle={{ padding: 0 }}>
           <Table
             columns={columns}
             dataSource={leaderboardData}
             rowKey="id"
             pagination={false}
             className="leaderboard-table"
-            rowClassName={(record) => 
+            rowClassName={(record) =>
               `leaderboard-row transition-all duration-300 hover:bg-purple-500/10 ${
-                record.rank === 1 ? 'bg-yellow-500/5' :
-                record.rank === 2 ? 'bg-gray-500/5' :
-                record.rank === 3 ? 'bg-orange-500/5' : ''
+                record.rank === 1
+                  ? 'bg-yellow-500/5'
+                  : record.rank === 2
+                  ? 'bg-gray-500/5'
+                  : record.rank === 3
+                  ? 'bg-orange-500/5'
+                  : ''
               }`
             }
             scroll={{ x: 800 }}
@@ -408,16 +412,16 @@ const Leaderboard: React.FC = () => {
               size="large"
               icon={<HeartOutlined />}
               className="bg-gradient-to-r from-red-500 to-pink-500 border-0 rounded-2xl px-8 h-12 font-semibold"
-              onClick={() => window.location.href = '/vote'}
+              onClick={() => (window.location.href = '/vote')}
             >
               Vote Now
             </Button>
-            
+
             <Button
               size="large"
               icon={<FireOutlined />}
               className="border-purple-400 text-purple-400 hover:bg-purple-500/10 rounded-2xl px-8 h-12 font-semibold"
-              onClick={() => window.location.href = '/submit'}
+              onClick={() => (window.location.href = '/submit')}
             >
               Submit Meme
             </Button>
