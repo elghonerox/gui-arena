@@ -1,0 +1,29 @@
+# Node.js/React
+node_modules/
+dist/
+build/
+.env
+*.log
+tsconfig.tsbuildinfo
+
+# Move/Aptos build artifacts
+smart-contracts/build/
+move/target/
+*.mv
+*.mvsm
+*.yaml
+
+# IDE and system files
+.idea/
+*.code-workspace
+.DS_Store
+
+# Miscellaneous
+settings.json
+memes/
+smart-contracts/aptos
+smart-contracts/gui-arena/
+smart-contracts/gui_arena_abi.json
+git
+cd
+docs/

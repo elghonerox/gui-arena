@@ -1,0 +1,11 @@
+[package]
+name = "gui_arena"
+version = "1.0.0"
+
+[dependencies]
+AptosFramework = { git = "https://github.com/aptos-labs/aptos-core", subdir = "aptos-move/framework/aptos-framework", rev = "main" }
+
+[dev-dependencies]
+
+[addresses]
+gui_arena = "0x59da3faa2652c3a96a8beb9e1ca05355bb1d4b30d44b43c2fc64eadebb19dcec"
