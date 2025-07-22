@@ -1,14 +1,22 @@
 # GUI Arena: Aptos Meme Battle
-A decentralized meme competition on Aptos Testnet for the Aptos Ideathon. Users submit memes (100 GUI) and vote (10 GUI per vote) using a smart contract. Features a neon-themed UI with Orbitron font and IPFS storage via Pinata.
+A decentralized meme voting platform demo for the Aptos Ideathon, using Pinata for IPFS storage.
+
+## Demo
+Live at: https://gui-arena.vercel.app/
 
 ## Features
-- Submit memes to IPFS and blockchain (100 GUI).
-- Vote for memes (10 GUI per vote) on the /vote page, featuring "Gigachad Energy", "Epic Futurama Moment", and "Classic Drake Template".
-- View leaderboard of top memes.
-- Petra wallet integration.
+- Vote on three memes (Futurama, Drake, Chad) for 10 GUI tokens, submit memes for 100 GUI, view leaderboard.
+- 24-hour countdown timer on vote page.
+- Enhanced particle effects and confetti burst animation.
+- Cyberpunk UI with Roman arena-style SVG logo, teal/purple palette, glassmorphism.
+- Simulated GUI token system with 1,250 GUI prize pool.
 
 ## Setup
-1. **Clone**:
-   ```bash
-   git clone https://github.com/your-username/gui-arena.git
-   cd gui-arena
+1. Clone: `git clone https://github.com/elghonerox/gui-arena`
+2. Navigate: `cd gui-arena/gui-arena-frontend`
+3. Serve: `python -m http.server 8000`
+4. View: `http://127.0.0.1:8000`
+
+## Future Work
+- Aptos wallet integration for real GUI token transactions.
+- Dynamic meme uploads via Pinata API.
