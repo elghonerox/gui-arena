@@ -3,7 +3,7 @@ A decentralized meme voting platform demo for the Aptos Ideathon, using Pinata f
 
 ## Demo
 Live at: https://gui-arena.vercel.app/
-
+Video: https://www.youtube.com/watch?v=TNekIc9aQpI&ab
 ## Features
 - Vote on three memes (Futurama, Drake, Chad) for 10 GUI tokens, submit memes for 100 GUI, view leaderboard.
 - 24-hour countdown timer on vote page.
